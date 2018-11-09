@@ -36,8 +36,8 @@ eval_iter  = mx.io.NDArrayIter(to4d(eval_data), eval_labels, batch_size=batch_si
 
 
 # 训练
-model.fit(train_data=train_iter, eval_data=eval_iter, eval_metric='acc', optimizer='sgd', num_epoch=epoch,
-			optimizer_params={'learning_rate':0.0001, 'momentum': 0.7},
+model.fit(train_data=train_iter, eval_data=eval_iter, eval_metric=['acc', 'loss'], optimizer='sgd', num_epoch=epoch,
+			optimizer_params={'learning_rate':0.001, 'momentum': 0.7},
 			batch_end_callback=mx.callback.Speedometer(batch_size=batch_size, frequent=batch_size))
 
 
@@ -45,5 +45,5 @@ model.fit(train_data=train_iter, eval_data=eval_iter, eval_metric='acc', optimiz
 model.save_checkpoint('cifar10', epoch=epoch)
 
 # 评估模型精度
-score = model.score(eval_iter, ['acc'])
+score = model.score(eval_iter, ['acc', 'loss'])
 print(score)
